@@ -26,7 +26,7 @@ In this case, the knowledge base is the FLAML documentation located on the web a
 Then it will use the answer to generate a response from the user proxy agent.
 
 - [rag-sample.py](rag-sample.py) - the original sample script from Microsoft.
-- [rag-sample-refactor.py](rag-sample-refactor.py) - a refactored version of the original script to
+- [rag-sample-refactor1.py](rag-sample-refactor1.py) - a refactored version of the original script to
     make it easier to understand and maintain.
 
 ## Installation and Execution
