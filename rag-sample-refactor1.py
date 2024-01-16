@@ -16,6 +16,9 @@ Here are the detailed steps:
 5. Start chatting with other agents.
 """
 
+import sys
+import argparse
+
 import chromadb
 
 import autogen
@@ -303,7 +306,13 @@ def create_agents():
 
 
 
-def main():
+def main( method: str):
+
+    """
+    This is the main function which will be called when this script is run.
+    It will create all the agents we need and then call the appropriate function
+    based on the method argument.
+    """
 
     # define the problem to be solved.
     PROBLEM = "How to use spark for parallel training in FLAML? Give me sample code."
@@ -314,7 +323,8 @@ def main():
     agents = create_agents()
     # _print_agents( agents )
 
-    method = "3"
+    print( f"MAIN running method: {method}" )
+
     # here are the three ways to use RAG user proxy agent.
     if method == "1":
         print( "method 1: norag_chat()" )
@@ -325,9 +335,44 @@ def main():
     elif method == "3":
         print( "method 3: call_rag_chat()" )
         call_rag_chat( agents, prompt=PROBLEM )  # this way uses RAG and multiple user proxy agents.
+    else:
+        print( "ERROR: method must be 1, 2, or 3, not '{method}'" )
+        _usage()
 
+
+
+
+def _usage():
+    """
+    Print usage information for this script.
+    """
+    # clear the screen
+    print( "" )
+    print( "ERROR: method must be 1, 2, or 3" )
+    print( "METHODS:" )
+    print( "  method 1: norag_chat()" )
+    print( "  method 2: rag_chat()" )
+    print( "  method 3: call_rag_chat()" )
+    print( "" )
+    print( "Example usage:" )
+    print( f"  python {sys.argv[0]} --method=1" )
+    print( f"  python {sys.argv[0]} --method=2" )
+    print( f"  python {sys.argv[0]} --method=3" )
+
+    sys.exit(1)
 
 
 if __name__ == "__main__":
-    main()
 
+    # take command line argument --method for method
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--method", help="method must be 1, 2, or 3", type=str, choices=["1", "2", "3"], nargs="?")
+    args = parser.parse_args()
+    method = args.method[0] if args.method else None
+
+    if method is None:
+        print(f"ERROR: method must be 1, 2, or 3, not {method}")
+        _usage()
+
+    main(method)
+    print(f"Completed method: {method}")
