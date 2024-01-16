@@ -1,0 +1,4 @@
+.cache
+.env
+.vscode
+tmp/*
